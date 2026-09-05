@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
+import { Route as AuthenticatedPainelIndexRouteImport } from './routes/_authenticated/painel.index'
+import { Route as AuthenticatedPainelConfiguracoesRouteImport } from './routes/_authenticated/painel.configuracoes'
+import { Route as AuthenticatedPainelSegurancaRouteImport } from './routes/_authenticated/painel.seguranca'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
+  id: '/painel',
+  path: '/painel',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPainelIndexRoute =
+  AuthenticatedPainelIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelConfiguracoesRoute =
+  AuthenticatedPainelConfiguracoesRouteImport.update({
+    id: '/configuracoes',
+    path: '/configuracoes',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
+const AuthenticatedPainelSegurancaRoute =
+  AuthenticatedPainelSegurancaRouteImport.update({
+    id: '/seguranca',
+    path: '/seguranca',
+    getParentRoute: () => AuthenticatedPainelRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/painel': typeof AuthenticatedPainelRouteWithChildren
+  '/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/painel/seguranca': typeof AuthenticatedPainelSegurancaRoute
+  '/painel/': typeof AuthenticatedPainelIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/painel/seguranca': typeof AuthenticatedPainelSegurancaRoute
+  '/painel': typeof AuthenticatedPainelIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/painel': typeof AuthenticatedPainelRouteWithChildren
+  '/_authenticated/painel/configuracoes': typeof AuthenticatedPainelConfiguracoesRoute
+  '/_authenticated/painel/seguranca': typeof AuthenticatedPainelSegurancaRoute
+  '/_authenticated/painel/': typeof AuthenticatedPainelIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/painel'
+    | '/painel/configuracoes'
+    | '/painel/seguranca'
+    | '/painel/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/auth' | '/painel/configuracoes' | '/painel/seguranca' | '/painel'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/painel'
+    | '/_authenticated/painel/configuracoes'
+    | '/_authenticated/painel/seguranca'
+    | '/_authenticated/painel/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +117,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/painel': {
+      id: '/_authenticated/painel'
+      path: '/painel'
+      fullPath: '/painel'
+      preLoaderRoute: typeof AuthenticatedPainelRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/painel/': {
+      id: '/_authenticated/painel/'
+      path: '/'
+      fullPath: '/painel/'
+      preLoaderRoute: typeof AuthenticatedPainelIndexRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/configuracoes': {
+      id: '/_authenticated/painel/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/painel/configuracoes'
+      preLoaderRoute: typeof AuthenticatedPainelConfiguracoesRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
+    '/_authenticated/painel/seguranca': {
+      id: '/_authenticated/painel/seguranca'
+      path: '/seguranca'
+      fullPath: '/painel/seguranca'
+      preLoaderRoute: typeof AuthenticatedPainelSegurancaRouteImport
+      parentRoute: typeof AuthenticatedPainelRoute
+    }
   }
 }
 
+interface AuthenticatedPainelRouteChildren {
+  AuthenticatedPainelConfiguracoesRoute: typeof AuthenticatedPainelConfiguracoesRoute
+  AuthenticatedPainelSegurancaRoute: typeof AuthenticatedPainelSegurancaRoute
+  AuthenticatedPainelIndexRoute: typeof AuthenticatedPainelIndexRoute
+}
+
+const AuthenticatedPainelRouteChildren: AuthenticatedPainelRouteChildren = {
+  AuthenticatedPainelConfiguracoesRoute: AuthenticatedPainelConfiguracoesRoute,
+  AuthenticatedPainelSegurancaRoute: AuthenticatedPainelSegurancaRoute,
+  AuthenticatedPainelIndexRoute: AuthenticatedPainelIndexRoute,
+}
+
+const AuthenticatedPainelRouteWithChildren =
+  AuthenticatedPainelRoute._addFileChildren(AuthenticatedPainelRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedPainelRoute: typeof AuthenticatedPainelRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedPainelRoute: AuthenticatedPainelRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
