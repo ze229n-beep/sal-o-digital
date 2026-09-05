@@ -58,9 +58,8 @@ function SegurancaPage() {
     try {
       const { error } = await supabase.auth.updateUser({
         password: next,
-        // @ts-expect-error current_password é exigido pelo backend em troca autenticada
         current_password: current,
-      });
+      } as Parameters<typeof supabase.auth.updateUser>[0]);
       if (error) throw error;
       setCurrent("");
       setNext("");

@@ -124,7 +124,7 @@ function Info({
 }: {
   icon: React.ReactNode;
   label: string;
-  value?: string | null;
+  value?: string | null | undefined;
 }) {
   return (
     <div>
