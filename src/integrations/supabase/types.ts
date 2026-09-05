@@ -14,7 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      services: {
+        Row: {
+          active: boolean
+          category: string
+          created_at: string
+          description: string
+          duration_minutes: number
+          id: string
+          name: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          description?: string
+          duration_minutes?: number
+          id?: string
+          name: string
+          price?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          category?: string
+          created_at?: string
+          description?: string
+          duration_minutes?: number
+          id?: string
+          name?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      shop_settings: {
+        Row: {
+          about: string
+          address: string
+          created_at: string
+          hours: string
+          id: string
+          instagram: string
+          name: string
+          singleton: boolean
+          updated_at: string
+          whatsapp: string
+        }
+        Insert: {
+          about?: string
+          address?: string
+          created_at?: string
+          hours?: string
+          id?: string
+          instagram?: string
+          name?: string
+          singleton?: boolean
+          updated_at?: string
+          whatsapp?: string
+        }
+        Update: {
+          about?: string
+          address?: string
+          created_at?: string
+          hours?: string
+          id?: string
+          instagram?: string
+          name?: string
+          singleton?: boolean
+          updated_at?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
