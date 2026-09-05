@@ -1,6 +1,6 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { Scissors, Settings, ShieldCheck, LogOut } from "lucide-react";
+import { Scissors, Settings, ShieldCheck, LogOut, CalendarDays } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 
@@ -9,6 +9,7 @@ export const Route = createFileRoute("/_authenticated/painel")({
 });
 
 const links = [
+  { to: "/painel/agendamentos", label: "Agendamentos", icon: CalendarDays },
   { to: "/painel/servicos", label: "Serviços", icon: Scissors },
   { to: "/painel/configuracoes", label: "Configurações", icon: Settings },
   { to: "/painel/seguranca", label: "Segurança", icon: ShieldCheck },

@@ -14,6 +14,59 @@ export type Database = {
   }
   public: {
     Tables: {
+      appointments: {
+        Row: {
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          date: string
+          duration_minutes: number
+          id: string
+          notes: string
+          service_id: string | null
+          service_name: string
+          start_time: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_name: string
+          customer_phone: string
+          date: string
+          duration_minutes?: number
+          id?: string
+          notes?: string
+          service_id?: string | null
+          service_name?: string
+          start_time: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          date?: string
+          duration_minutes?: number
+          id?: string
+          notes?: string
+          service_id?: string | null
+          service_name?: string
+          start_time?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       services: {
         Row: {
           active: boolean
